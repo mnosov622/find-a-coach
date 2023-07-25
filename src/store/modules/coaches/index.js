@@ -24,14 +24,46 @@ export default {
       ],
     };
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    addCoach(state, payload) {
+      state.coaches.push(payload);
+    },
+  },
+  actions: {
+    addCoach(context, data) {
+      context.commit('addCoach', data);
+      fetch(
+        `https://vue-find-coach-dc360-default-rtdb.firebaseio.com/coaches.json`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            console.log('error occurred while saving data');
+          }
+          return response.json();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   getters: {
     coaches(state) {
       return state.coaches;
     },
     hasCoaches(state) {
       return state.coaches && state.coaches.length > 0;
+    },
+    isCoach(_, getters, _2, rootGetters) {
+      const coaches = getters.coaches;
+      const userId = rootGetters.userId;
+      return coaches.some((coach) => coach.id === userId);
     },
   },
 };
