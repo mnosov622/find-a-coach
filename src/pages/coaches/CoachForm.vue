@@ -144,7 +144,6 @@ export default {
         return;
       }
       const coachData = {
-        id: 'c3',
         firstName: this.firstName.val,
         lastName: this.lastName.val,
         description: this.description.val,
