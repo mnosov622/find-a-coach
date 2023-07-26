@@ -1,4 +1,9 @@
 <template>
+  <base-dialog :show="!!error" title="An error occured!" @close="handleError">
+    <p>
+      {{ error }}
+    </p>
+  </base-dialog>
   <section>
     <coach-filter @change-filter="setFilters"></coach-filter>
   </section>
@@ -6,7 +11,7 @@
     <base-card>
       <div class="controls">
         <base-button mode="outline" @click="loadCoaches">Refresh</base-button>
-        <base-button link to="/register" v-if="!isCoach"
+        <base-button v-if="!isLoading && !isCoach" link to="/register"
           >Register as Coach</base-button
         >
       </div>
@@ -36,7 +41,17 @@ export default {
     CoachItem,
     CoachFilter,
   },
-
+  data() {
+    return {
+      isLoading: false,
+      error: null,
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        careers: true,
+      },
+    };
+  },
   computed: {
     isCoach() {
       return this.$store.getters['coaches/isCoach'];
@@ -60,24 +75,22 @@ export default {
       return this.$store.getters['coaches/hasCoaches'];
     },
   },
-  data() {
-    return {
-      isLoading: false,
-      activeFilters: {
-        frontend: true,
-        backend: true,
-        careers: true,
-      },
-    };
-  },
+
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
     async loadCoaches() {
       this.isLoading = true;
-      await this.$store.dispatch('coaches/loadCoaches');
+      try {
+        await this.$store.dispatch('coaches/loadCoaches');
+      } catch (error) {
+        this.error = error.message || 'Failed to fetch coaches';
+      }
       this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
     },
   },
 

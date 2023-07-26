@@ -52,7 +52,7 @@ export default {
     },
     async loadCoaches(context) {
       const response = await fetch(
-        `https://vue-find-coach-dc360-default-rtdb.firebaseio.com/coaches.json`
+        `https://vue-find-coach-dc360-default-rtdb.firebaseio.comcoaches.json`
       );
       const responseData = await response.json();
       if (!response.ok) {
