@@ -37,8 +37,6 @@
 </template>
 
 <script>
-import { handleError } from 'vue';
-
 export default {
   data() {
     return {
@@ -69,13 +67,13 @@ export default {
             email: this.email,
             password: this.password,
           });
-          this.$router.replace('/coaches');
+          const redirectUrl = '/' + (this.$route.query.redirect || 'coaches');
+          this.$router.replace(redirectUrl);
         } else {
           await this.$store.dispatch('signup', {
             email: this.email,
             password: this.password,
           });
-          this.$router.replace('/coaches');
         }
       } catch (error) {
         this.error = error.message || 'Failed to authenticate';
