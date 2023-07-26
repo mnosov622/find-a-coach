@@ -20,8 +20,9 @@ export default {
   actions: {
     async addCoach(context, data) {
       const userId = context.rootGetters.userId;
+      const token = context.rootGetters.token;
       const response = await fetch(
-        `https://vue-find-coach-dc360-default-rtdb.firebaseio.com/coaches/${userId}.json`,
+        `https://vue-find-coach-dc360-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=${token}`,
         {
           method: 'PUT',
           headers: {

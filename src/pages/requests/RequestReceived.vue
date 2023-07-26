@@ -62,8 +62,9 @@ export default {
     async fetchData() {
       this.isLoading = true;
       const userId = this.$store.getters.userId;
+      const token = this.$store.getters.token;
       const response = await fetch(
-        `https://vue-find-coach-dc360-default-rtdb.firebaseio.com/requests/${userId}.json`
+        `https://vue-find-coach-dc360-default-rtdb.firebaseio.com/requests/${userId}.json?auth=${token}`
       );
       const responseData = await response.json();
       if (!response.ok) {
