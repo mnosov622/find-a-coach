@@ -32,8 +32,6 @@ export default {
 
       if (this.email !== '' && this.message !== '') {
         const newRequest = {
-          id: new Date().toISOString(),
-          coachId: this.$route.params.id,
           email: this.email,
           message: this.message,
         };
