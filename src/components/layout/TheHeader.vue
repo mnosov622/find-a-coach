@@ -2,6 +2,9 @@
   <header>
     <nav>
       <h1><router-link to="/">find a coach</router-link></h1>
+      <p class="userName" v-if="isAuthenticated">
+        Welcome back, {{ userName }}
+      </p>
       <ul>
         <li><router-link to="/coaches">All Coaches</router-link></li>
         <li v-if="isAuthenticated">
@@ -23,6 +26,9 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
+    },
+    userName() {
+      return this.$store.getters.userName;
     },
   },
   methods: {
@@ -92,5 +98,13 @@ header ul {
 
 li {
   margin: 0 0.5rem;
+}
+.userName {
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-left: 15%;
 }
 </style>
